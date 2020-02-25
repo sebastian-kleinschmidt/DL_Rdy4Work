@@ -17,6 +17,8 @@ if echo "$LD_LIBRARY_PATH" | grep -q "cuda"; then
     printf "... ${GREEN} LD_LIBRARY_PATH: passed ${NC}\n"
 else
     printf "... ${RED} LD_LIBRARY_PATH: failed - CUDA need to be added${NC}\n"
+    export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:/usr/local/cuda/lib64"
+    export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:/usr/local/cuda-10.0/lib64"
 fi
 
 
@@ -24,28 +26,21 @@ if echo "$PATH" | grep -q "cuda"; then
     printf "... ${GREEN} PATH: passed ${NC}\n"
 else
     printf "... ${RED} PATH: failed - CUDA need to be added${NC}\n"
+    export PATH="/usr/local/cuda-10.0/bin:$PATH"
+    export PATH="/usr/local/cuda/bin:$PATH"
 fi
 
 
 if echo "$CUDA_HOME" | grep -q "cuda"; then
     printf "... ${GREEN} CUDA_HOME: passed ${NC}\n"
+    export CUDA_HOME="/usr/local/cuda-10.0"
+
 else
     printf "... ${RED} CUDA_HOME: failed - CUDA need to be added${NC}\n"
+    export CUDA_HOME="/usr/local/cuda-10.0"
 fi
 
-
-#echo $LD_LIBRARY_PATH
-#echo $PATH
-#echo $LD_LIBRARY_PATH
-#echo $PATH
-#echo $CUDA_HOME
-#
 # If not found - installed but vars not initiaized?
-#export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:/usr/local/cuda-10.0/lib64"
-#export PATH="/usr/local/cuda-10.0/bin:$PATH"
-#export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:/usr/local/cuda/lib64"
-#export PATH="/usr/local/cuda/bin:$PATH"
-#export CUDA_HOME="/usr/local/cuda-10.0"
 #
 # Get CUDA version for PyTorch-Install
 #
