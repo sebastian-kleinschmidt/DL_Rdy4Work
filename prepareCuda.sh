@@ -1,5 +1,7 @@
-RED="\033[0;31m"
-NC="\033[0m"
+#Current Version only works for Cuda 10.0
+
+export RED="\033[0;31m"
+export NC="\033[0m"
 
 vartest=$(ls /usr/local/)
 printf "Check CUDA installation...\n"
@@ -7,6 +9,7 @@ if echo "$vartest" | grep -q "cuda"; then
     printf "... ${GREEN} CUDA found in /usr/local/ ${NC}\n"
 else
     printf "... ${RED}CUDA not found in /usr/local ${NC}\n"
+    exit 3
 fi
 
 
@@ -19,6 +22,7 @@ else
     printf "... ${RED} LD_LIBRARY_PATH: failed - CUDA need to be added${NC}\n"
     export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:/usr/local/cuda/lib64"
     export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:/usr/local/cuda-10.0/lib64"
+    printf "......added!"
 fi
 
 
@@ -28,20 +32,18 @@ else
     printf "... ${RED} PATH: failed - CUDA need to be added${NC}\n"
     export PATH="/usr/local/cuda-10.0/bin:$PATH"
     export PATH="/usr/local/cuda/bin:$PATH"
+    printf "......added!"
 fi
 
 
 if echo "$CUDA_HOME" | grep -q "cuda"; then
     printf "... ${GREEN} CUDA_HOME: passed ${NC}\n"
-    export CUDA_HOME="/usr/local/cuda-10.0"
-
 else
     printf "... ${RED} CUDA_HOME: failed - CUDA need to be added${NC}\n"
     export CUDA_HOME="/usr/local/cuda-10.0"
+    printf "......added!"
 fi
 
-# If not found - installed but vars not initiaized?
-#
 # Get CUDA version for PyTorch-Install
 #
 # Get Anaconda Rdy
@@ -54,5 +56,7 @@ fi
 # Install Environment
 #cd ~
 #conda create -n deeplearning -c pytorch torchvision cudatoolkit=10.0
+conda activate deeplearnign
+python pytorchtest.py
 
 #NVIDIA-SMI
